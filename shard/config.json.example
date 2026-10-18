@@ -1,0 +1,21 @@
+{
+  "mode": "DEBUG",
+  "log_level": "",
+  "log_dir": "",
+
+  "port": 9090,
+  "allowed_hosts": [],
+  "max_range_size": 10,
+  "secret_key": "",
+
+  "path": "",
+  "max_file_size": 123,
+  "block_size": 123,
+  "allowed_file_types": "",
+
+  "db": "",
+  "host": "",
+  "username": "",
+  "password": "",
+  "db_modes": []
+}

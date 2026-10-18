@@ -1,0 +1,5 @@
+.idea
+*.iml
+./**/result
+.venv
+config.json
