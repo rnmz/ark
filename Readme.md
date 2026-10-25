@@ -92,6 +92,6 @@ If you have an idea that could make Ark more useful, feel free to open an issue 
 
 ## License
 
-**[MIT License](./license)**
+**[MIT License](./License)**
 
-Copyright (c) 2026-present, Ark project.
+Copyright (c) 2026-present, rnmz.
