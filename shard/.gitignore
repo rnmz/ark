@@ -3,3 +3,6 @@
 ./**/result
 .venv
 config.json
+*.py
+**/*.pyc
+**.pyc

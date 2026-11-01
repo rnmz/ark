@@ -11,24 +11,34 @@ import (
 )
 
 type AppConfig struct {
-	// Common
+	App
+	Server
+	File
+	DB
+}
+
+type App struct {
 	Mode     string `json:"mode,omitempty"`
 	LogLevel string `json:"log_level,omitempty"`
 	LogDir   string `json:"log_dir,omitempty"`
+	Name     string `json:"name"`
+}
 
-	// Server
+type Server struct {
 	Port         int      `json:"port"`
 	AllowedHosts []string `json:"allowed_hosts,omitempty"`
 	MaxRangeSize int      `json:"max_range_size"`
 	SecretKey    string   `json:"secret_key"`
+}
 
-	// File
+type File struct {
 	Path             string   `json:"path"`
 	MaxFileSize      int      `json:"max_file_size"`
 	BlockSize        int      `json:"block_size"`
 	AllowedFileTypes []string `json:"allowed_file_types"`
+}
 
-	// DB
+type DB struct {
 	DB       string   `json:"db"`
 	Host     string   `json:"host"`
 	Username string   `json:"username"`
@@ -53,11 +63,14 @@ func ReadConfig(path string) (AppConfig, error) {
 }
 
 func applyDefaults(config *AppConfig) {
-	if !slices.Contains([]string{"release", "debug"}, strings.ToLower(config.Mode)) {
+	config.Mode = strings.ToLower(config.Mode)
+	config.LogLevel = strings.ToLower(config.LogLevel)
+
+	if !slices.Contains([]string{"release", "debug"}, config.Mode) {
 		slog.Debug("[Config] Mode is not set or invalid, using default")
 		config.Mode = "debug"
 	}
-	if !slices.Contains([]string{"debug", "info", "warn", "error"}, strings.ToLower(config.LogLevel)) {
+	if !slices.Contains([]string{"debug", "info", "warn", "error"}, config.LogLevel) {
 		slog.Debug("[Config] LogLevel is not set or invalid, using default")
 		config.LogLevel = "info"
 	}
@@ -99,7 +112,7 @@ func validateConfig(config *AppConfig) error {
 	if config.MaxFileSize <= 0 {
 		return AppConfigError{Reason: fmt.Sprintf("[Config] MaxFileSize must be greater than 0: %d", config.MaxFileSize)}
 	}
-	if config.DB == "" || config.Host == "" || config.Username == "" || config.Password == "" {
+	if config.DB.DB == "" || config.Host == "" || config.Username == "" || config.Password == "" {
 		return AppConfigError{Reason: "[DB] invalid config: missing credentials"}
 	}
 

@@ -1,30 +1,16 @@
-package config
+package server
 
 import (
+	"ark/shard/app/config"
+	"ark/shard/app/security"
 	"log/slog"
-	"vrx/shard/app/security"
 
 	"github.com/bytedance/sonic"
 	"github.com/gofiber/fiber/v3"
 	"github.com/gofiber/fiber/v3/middleware/cors"
 )
 
-func StartServer() {
-	cfg, err := ReadConfig("./config.json")
-	if err != nil {
-		panic(err)
-	}
-
-	logger, err := InitLogger(cfg.LogLevel, cfg.LogDir)
-	if err != nil {
-		panic(err)
-	}
-	defer logger.Close()
-
-
-}
-
-func createFiberApp(config AppConfig) *fiber.App {
+func CreateFiberApp(config config.AppConfig) *fiber.App {
 	app := fiber.New(fiber.Config{
 		JSONEncoder: sonic.Marshal,
 		JSONDecoder: sonic.Unmarshal,
@@ -39,7 +25,7 @@ func createFiberApp(config AppConfig) *fiber.App {
 	)
 
 	app.Use(xSignatureMiddleware(config.SecretKey))
-	app.Use(OptionsMiddleware)
+	app.Use(optionsMiddleware())
 
 	return app
 }
@@ -72,7 +58,7 @@ func xSignatureMiddleware(secret string) fiber.Handler {
 	}
 }
 
-func OptionsMiddleware() fiber.Handler {
+func optionsMiddleware() fiber.Handler {
 	return func(ctx fiber.Ctx) error {
 		if ctx.Method() == "OPTIONS" {
 			return ctx.SendStatus(fiber.StatusNoContent)

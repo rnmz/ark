@@ -1,24 +1,22 @@
 package data
 
-type FileMetadata struct {
-	Id         int    `json:"id"`
-	FileInBlob bool   `db:"blob"`
-	Filename   string `db:"filename"`
-	Path       string `db:"path"`
+import "github.com/jmoiron/sqlx"
+
+type fileMetadata struct {
+	Id          int    `db:"id"`
+	FileInBlob  bool   `db:"blob"`
+	FilenameUID string `db:"filename"`
+	Path        string `db:"path"`
 }
 
-func getFileMetadata(id int) (FileMetadata, error) {
-
-}
-
-func addFileMetadata(fileMetadata FileMetadata) (FileMetadata, error) {
-
-}
-
-func editFileMetadata(id int) (FileMetadata, error) {
-
-}
-
-func deleteFileMetadata(id int) error {
-
+func createFileMetadataTable(db *sqlx.DB) error {
+	_, err := db.Exec(`
+		CREATE TABLE IF NOT EXISTS file_metadata (
+			id INTEGER PRIMARY KEY AUTOINCREMENT,
+			file_in_blob BOOLEAN,
+			filename_uid VARCHAR(64),
+			path VARCHAR(255)
+			)
+			`)
+	return err
 }

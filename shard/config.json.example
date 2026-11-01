@@ -1,10 +1,11 @@
 {
-  "mode": "DEBUG",
-  "log_level": "",
-  "log_dir": "",
+  "mode": "Debug",
+  "log_level": "Debug",
+  "log_dir": "./logs",
+  "name": "",
 
   "port": 9090,
-  "allowed_hosts": [],
+  "allowed_hosts": ["localhost"],
   "max_range_size": 10,
   "secret_key": "",
 
