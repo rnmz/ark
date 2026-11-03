@@ -1,17 +1,30 @@
 package data
 
-func CreateTables() {
+import (
+	"io"
+
+	"github.com/jmoiron/sqlx"
+)
+
+type FileDataStruct struct {
+	TargetPath string
+	CachePath  string
+	DB         *sqlx.DB
+}
+
+func InitData(db *sqlx.DB, targetPath, cachePath string) *FileDataStruct {
 
 }
 
-func UploadFile() {
+// UploadFile Upload new file
+func (f *FileDataStruct) UploadFile(fileStream io.Reader) error {
 
 }
 
-func GetFile(uid string) {
+func (f *FileDataStruct) GetFile(uid string) {
 
 }
 
-func DeleteFile() {
+func (f *FileDataStruct) DeleteFile() {
 
 }
